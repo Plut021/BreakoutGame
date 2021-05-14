@@ -26,6 +26,7 @@ WHITE = (255,255,255)
 
 
 def main():
+	starting = True
 	run = True
 	FPS = 60
 	level = 1
@@ -174,6 +175,11 @@ def main():
 		WIN.blit(level_label, (100, HEIGHT-200))
 
 
+	def draw_start_screen():
+		pygame.draw.rect(WIN, BLACK,(0,0,WIDTH, HEIGHT))
+		message = main_font.render("PRESS SPACE TO START", 1, BLUE)
+		WIN.blit(message,(int((WIDTH-message.get_width())/2), int((HEIGHT-message.get_height())/2)))
+		pygame.display.update()
 
 
 	def redraw_window():
@@ -202,6 +208,23 @@ def main():
 		wall_r.draw()
 
 		pygame.display.update()
+
+
+	while starting:
+		clock.tick(int(FPS/2))
+		draw_start_screen()
+
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT:
+				starting = False
+				run = False
+
+		keys = pygame.key.get_pressed()
+		for key in keys:
+			if keys[pygame.K_SPACE]:
+				starting = False
+
+
 
 	while run:
 		clock.tick(FPS)
